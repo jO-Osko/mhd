@@ -9,6 +9,7 @@ import ListAsArray from "./impl/ListAsArray";
 import GraphAsSparse6 from "./impl/GraphAsSparse6";
 import CoveringRelationAsDigraph6 from "./impl/CoveringRelationAsDigraph6";
 import PolynomialAsSparseArray from "./impl/PolynomialAsSparseArray";
+import FactorizationAsSparseArray from "./impl/FactorizationAsSparseArray";
 
 /**
  * Manages all known codecs
@@ -24,6 +25,7 @@ export default class CodecManager {
         this.register(new StandardJSON());
         this.register(new GraphAsSparse6());
         this.register(new PolynomialAsSparseArray());
+        this.register(new FactorizationAsSparseArray());
         this.register(new CoveringRelationAsDigraph6());
         this.register(new MatrixAsList(new StandardInt(), 2, 2));
         this.register(new MatrixAsList(new StandardInt(), 3, 3));
