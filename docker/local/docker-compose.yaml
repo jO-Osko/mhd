@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  postgresdb:
+    container_name: math_data_db
+    image: postgres:14
+    environment:
+      POSTGRES_DATABASE: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "127.0.0.1:5433:5432"
+    volumes:
+      - ./db-data-db/:/var/lib/postgresql/data
+
+  appserver:
+    container_name: math_data_app
+    build:
+      context: ../../
+      dockerfile: docker/local/Dockerfile
+      target: backend
+    environment:
+      DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
+      DJANGO_ALLOWED_HOSTS: ${DJANGO_ALLOWED_HOSTS}
+      DJANGO_DB_ENGINE: "django.db.backends.postgresql"
+      DJANGO_DB_NAME: ${POSTGRES_DB}
+      DJANGO_DB_USER: ${POSTGRES_USER}
+      DJANGO_DB_PASSWORD: ${POSTGRES_PASSWORD}
+      DJANGO_DB_HOST: math_data_db
+      DJANGO_DB_PORT: 5432
+    ports:
+      - "127.0.0.1:8080:8000"
+    depends_on:
+      - postgresdb
+    volumes:
+      - ../../:/app
