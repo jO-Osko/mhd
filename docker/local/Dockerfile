@@ -1,12 +1,12 @@
 # Stage 1: Build the frontend
-FROM node:12 as frontend
-WORKDIR /app/frontend/
-ADD frontend .
-RUN yarn
-RUN yarn build
+#FROM node:12 as frontend
+#WORKDIR /app/frontend/
+#ADD frontend .
+#RUN yarn
+#RUN yarn build
 
 # Stage 2: Build the backend + add the frontend to it
-FROM python:3.8-alpine as backend
+FROM python:3.10-alpine as backend
 
 # Add requirements and install dependencies
 WORKDIR /app/
@@ -21,7 +21,7 @@ ADD requirements-dev.txt /app/
 
 RUN pip install -r requirements.txt -r requirements-dev.txt --no-cache-dir
 
-COPY --from=frontend /app/frontend/build /app2/frontend/build
+# COPY --from=frontend /app/frontend/build /app2/frontend/build
 
 COPY . /app
 
