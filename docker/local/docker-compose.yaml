@@ -13,6 +13,27 @@ services:
     volumes:
       - ./db-data-db/:/var/lib/postgresql/data
 
+  nautyserver:
+    container_name: nauty_service
+    build:
+      context: ../../
+      dockerfile:
+        docker/local/Nauty.Dockerfile
+      target: fullGap
+
+  feserver:
+    container_name: math_data_fe
+    build:
+      context: ../../
+      dockerfile:
+        docker/local/Frontend.Dockerfile
+    ports:
+      - "127.0.0.1:3080:3000"
+    depends_on:
+      - appserver
+    volumes:
+      - ../../frontend/:/app/frontend
+
   appserver:
     container_name: math_data_app
     build:
