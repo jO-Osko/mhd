@@ -13,14 +13,6 @@ services:
     volumes:
       - ./db-data-db/:/var/lib/postgresql/data
 
-  nautyserver:
-    container_name: nauty_service
-    build:
-      context: ../../
-      dockerfile:
-        docker/local/Nauty.Dockerfile
-      target: fullGap
-
   feserver:
     container_name: math_data_fe
     build:
@@ -30,16 +22,16 @@ services:
     ports:
       - "127.0.0.1:3080:3000"
     depends_on:
-      - appserver
+      - mhd_appserver
     volumes:
-      - ../../frontend/:/app/frontend
+      - ../../frontend/src:/app/frontend/src
+      - ../../frontend/.env:/app/frontend/.env
 
-  appserver:
+  mhd_appserver:
     container_name: math_data_app
     build:
       context: ../../
       dockerfile: docker/local/Dockerfile
-      target: backend
     environment:
       DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
       DJANGO_ALLOWED_HOSTS: ${DJANGO_ALLOWED_HOSTS}

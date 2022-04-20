@@ -1,14 +1,16 @@
 FROM node:16
 WORKDIR /app/frontend/
-ADD frontend/package.json .
-ADD frontend/tsconfig.json .
-ADD frontend/yarn.lock .
+COPY frontend/next-env.d.ts .
+COPY frontend/package.json .
+COPY frontend/yarn.lock .
+COPY frontend/tsconfig.json .
 
-RUN yarn install
+RUN yarn --frozen-lockfile install
 
-COPY . /app
+COPY frontend /app/frontend
 
 EXPOSE 3000
 
-CMD yarn start
+# CMD sleep infinity
+CMD yarn dev
 
