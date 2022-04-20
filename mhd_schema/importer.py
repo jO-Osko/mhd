@@ -53,8 +53,8 @@ class SchemaImporter(object):
             if not isinstance(data['preFilters'], list):
                 raise SchemaValidationError(
                     'Key \'preFilters\' is not a list of PreFilters. ')
-                for pf in data['preFilters']:
-                    self._validate_pre_filter(pf)
+            for pf in data['preFilters']:
+                self._validate_pre_filter(pf)
 
     def _validate_property(self, data: Any) -> None:
         if not isinstance(data, dict):
