@@ -26,6 +26,8 @@ services:
     volumes:
       - ../../frontend/src:/app/frontend/src
       - ../../frontend/.env:/app/frontend/.env
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   mhd_appserver:
     container_name: math_data_app
