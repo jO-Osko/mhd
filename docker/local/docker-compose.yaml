@@ -44,7 +44,7 @@ services:
       DJANGO_DB_HOST: math_data_db
       DJANGO_DB_PORT: 5432
     ports:
-      - "127.0.0.1:8080:8000"
+      - "0.0.0.0:8080:8000"
     depends_on:
       - postgresdb
     volumes:
