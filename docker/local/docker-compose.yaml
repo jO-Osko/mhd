@@ -20,7 +20,7 @@ services:
       dockerfile:
         docker/local/Frontend.Dockerfile
     ports:
-      - "127.0.0.1:6543:3000"
+      - "0.0.0.0:6543:3000"
     depends_on:
       - mhd_appserver
     volumes:
