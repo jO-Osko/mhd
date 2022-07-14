@@ -10,8 +10,9 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
       - "127.0.0.1:5433:5432"
-    volumes:
-      - ./db-data-db/:/var/lib/postgresql/data
+    # volumes:
+    #   - ./db-data-db/:/var/lib/postgresql/data
+    shm_size: 2G
 
   feserver:
     container_name: math_data_fe
@@ -29,7 +30,39 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
+  mhd-production-server:
+    deploy:
+      resources:
+        limits:
+          memory: 6G
+        reservations:
+          memory: 4G
+    build:
+      context: ../../
+      dockerfile: Dockerfile
+      args:
+        - DJANGO_SECRET_KEY_BASE=${DJANGO_SECRET_KEY}
+    environment:
+      DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
+      DJANGO_DB_ENGINE: "django.db.backends.postgresql"
+      DJANGO_DB_NAME: ${POSTGRES_DB}
+      DJANGO_DB_USER: ${POSTGRES_USER}
+      DJANGO_DB_PASSWORD: ${POSTGRES_PASSWORD}
+      DJANGO_DB_HOST: math_data_db
+      DJANGO_DB_PORT: 5432
+
+    ports:
+      - "0.0.0.0:80:80"
+    depends_on:
+      - postgresdb
+
   mhd-appserver:
+    deploy:
+      resources:
+        limits:
+          memory: 6G
+        reservations:
+          memory: 4G
     container_name: math_data_app
     build:
       context: ../../
