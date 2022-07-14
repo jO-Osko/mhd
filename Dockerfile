@@ -18,6 +18,8 @@ FROM base as frontend
 # add and run the frontend code
 ADD frontend /app/frontend
 WORKDIR /app/frontend
+# This is needed to make the frontend work together with developmnet frontend
+RUN rm .env.local
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
 RUN yarn install --frozen-lockfile --production
